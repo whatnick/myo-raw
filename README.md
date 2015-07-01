@@ -1,3 +1,29 @@
+# myo_raw_osc
+
+- Added OSC built-in compatibility to the myo raw data
+- Orientation angles accurately computed 
+
+# Usage
+  python myo_raw_osc.py -i/--ip -p/--port -s/--send -e/--emgOn -u/--imuOn
+  - -i: IP destination address. Default to 127.0.0.1
+  - -p: UDP destination port. Default to 57120 (sclang)
+  - -s: Send (1) or not (0) data through OSC. Default to 1.
+  - -e: Get (1) or not (0) EMG data
+  - -u: Get (1) or not (0) IMU data
+  
+# OSC messages:
+  - [/myo/emg, (8 values with raw EMG data)]
+  - [/myo/imu, yaw(azimuth), roll, pitch(elevation), accX, accY, accZ]
+  
+# Extra external dependencies
+  - osc 
+  - transforms3d
+  
+Andrés Pérez López ---> www.andresperezlopez.com
+
+---------------------------------------------------------------------------------------
+
+
 # Overview
 
 This project provides an interface to communicate with the Thalmic Myo,
