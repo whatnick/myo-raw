@@ -5,7 +5,7 @@
 - Optimal usage with myo-firmware-0.8.18-revd
 
 ## Usage: 
-python myo_raw_osc.py -v <verbose> -s <send> -a <[dest IP,dest port]> -a <...> ... 
+python myo_raw_osc.py -v -s -a -a... 
 
     - -v --verbose: 0 or 1 \t print the messages. Default to 1
 
@@ -42,7 +42,7 @@ python myo_raw_osc.py -v 0 -s 1 -a [0,57120] -a [127.0.0.4,12345]
 - Receives OSC messages from external process myo_raw_osc.py
 
 ## Usage: 
-python myo_raw_osc_gui.py -i <ip address> -p <ip port>
+python myo_raw_osc_gui.py -i -p
 
     - -i --ip: ip address. Default to "localhost"
 
