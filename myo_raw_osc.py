@@ -1,7 +1,3 @@
-# # OSC messages:
-#   - [/myo/emg, (8 values with raw EMG data)]
-#   - [/myo/imu, yaw(azimuth), roll, pitch(elevation), accX, accY, accZ]
-
 from __future__ import print_function
 import sys 
 from common import *
@@ -15,19 +11,18 @@ import getopt
 ######################################################################
 
 ## default settings
+verbose = 1
 send = 0
 ip = "127.0.0.1"
-port = 57120 # supercollider language
-verbose = 1
+port = 7110 # myo_raw_osc_gui.py default port
 
 addressList = []
 clientList = []
 
-
 ### get command-line options
 try:
-    opts, args = getopt.getopt(sys.argv[1:],"s:hi:p:v:a:",
-        ["send=","ip=","port=","verbose=","address="])
+    opts, args = getopt.getopt(sys.argv[1:],"hv:s:a:",
+        ["verbose=","send=","address="])
 except getopt.GetoptError:
     sys.exit(2)
 for opt, arg in opts:
@@ -68,11 +63,12 @@ for opt, arg in opts:
       address = {'ip':ip, 'port':port};
       addressList.append(address);
       
-    
 ### init
 m = MyoRaw()
 orientation=[]
 # instanciate osc clients
+if len(addressList)==0:
+    addresList.append({'ip':ip,'port':port}) #dafult values
 for address in addressList:
     client = OSC.OSCClient()
     client.connect( (address['ip'],address['port']) )

@@ -1,5 +1,4 @@
-
-
+# (c) Andrés Pérez López 2015-2016
 
 #adapted from:
 #https://github.com/ptone/pyosc/blob/master/examples/knect-rcv.py
@@ -9,9 +8,51 @@ from OSC import OSCServer
 import sys
 from time import sleep
 
-server = OSCServer( ("localhost", 7110) )
+from pyqtgraph.Qt import QtGui, QtCore
+import pyqtgraph as pg
+
+import time
+import numpy as np
+
+
+
+######################################################################
+######################################################################
+
+# default settings
+
+ip = "localhost"
+port = 7110
+
+try:
+    opts, args = getopt.getopt(sys.argv[1:],"hi:p:",
+        ["ip=","port="])
+except getopt.GetoptError:
+    sys.exit(2)
+for opt, arg in opts:
+    if opt == '-h':
+        print('\n')
+        print ('myo_raw_osc_gui.py: plot raw myo data through OSC ')
+        print('\n')
+        print('Usage: -v <verbose> -s <send> -a <[dest IP,dest port]> -a <...> ... ')
+        print('-v --verbose: 0 or 1 \t print the messages. Default to 1')
+        print('-s --send: 0 or 1 \t send the data over OSC. Default to 0')
+        print('-a --address: [ip,port]  add an OSC client to where send the data')
+        print('\t \t \t ip 0 will expand to localhost 127.0.0.1')
+        print('\t \t \t multiple clients might be registered by reusing the -a option')      
+        print('\n')
+    elif opt in ("-i", "--ip"):
+        ip = arg
+        if ip == "0":
+            ip="127.0.0.1"
+    elif opt in ("-p","--port"):
+        port = int(arg)
+
+
+server = OSCServer( (ip,port) )
 server.timeout = 0
 run = True
+
 
 # this method of reporting timeouts only works by convention
 # that before calling handle_request() field .timed_out is 
@@ -60,13 +101,6 @@ def each_frame():
 ##############################################################################
 ##############################################################################
 ##############################################################################
-
-from pyqtgraph.Qt import QtGui, QtCore
-import pyqtgraph as pg
-
-import time
-import numpy as np
-
 
 app = QtGui.QApplication([])
 
