@@ -5,7 +5,7 @@
 - Optimal usage with myo-firmware-0.8.18-revd
 
 # Usage: 
--v <verbose> -s <send> -a <[dest IP,dest port]> -a <...> ... 
+- python myo_raw_osc -v <verbose> -s <send> -a <[dest IP,dest port]> -a <...> ... 
     -v --verbose: 0 or 1 \t print the messages. Default to 1
     -s --send: 0 or 1 \t send the data over OSC. Default to 0
     -a --address: [ip,port]  add an OSC client to where send the data
