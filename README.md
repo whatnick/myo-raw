@@ -5,7 +5,7 @@
 - Optimal usage with myo-firmware-0.8.18-revd
 
 ## Usage: 
-- python myo_raw_osc.py -v <verbose> -s <send> -a <[dest IP,dest port]> -a <...> ... 
+python myo_raw_osc.py -v <verbose> -s <send> -a <[dest IP,dest port]> -a <...> ... 
     -v --verbose: 0 or 1 \t print the messages. Default to 1
     -s --send: 0 or 1 \t send the data over OSC. Default to 1
     -a --address: [ip,port]  add an OSC client to where send the data
@@ -29,7 +29,7 @@ python myo_raw_osc.py -v 0 -s 1 -a [0,57120] -a [127.0.0.4,12345]
   - pyOSC (https://trac.v2.nl/wiki/pyOSC)
   - transforms3d (https://pypi.python.org/pypi/transforms3d)
 
-
+------------------------------------------------------------------------------
 
 # myo_raw_osc_gui
 
@@ -37,7 +37,7 @@ python myo_raw_osc.py -v 0 -s 1 -a [0,57120] -a [127.0.0.4,12345]
 - Receives OSC messages from external process myo_raw_osc.py
 
 ## Usage: 
-- python myo_raw_osc_gui.py -i <ip address> -p <ip port>
+python myo_raw_osc_gui.py -i <ip address> -p <ip port>
     -i --ip: ip address. Default to "localhost"
     -p --port: or 1 \t send the data over OSC. Default to 7110
 
@@ -49,6 +49,7 @@ Andrés Pérez López ---> www.andresperezlopez.com
 
 ------------------------------------------------------------------------------
 ------------------------------------------------------------------------------
+# Overview
 
 This project provides an interface to communicate with the Thalmic Myo,
 providing the ability to scan for and connect to a nearby Myo, and giving access
