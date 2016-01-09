@@ -27,17 +27,18 @@ port = 57120 # supercollider language
 maxHist = 100 # max number of recorded events
 nEmg = 0 # number of iterations
 nImu = 0
+verbose = 1
 
 
 ### get command-line options
 try:
-    opts, args = getopt.getopt(sys.argv[1:],"s:hi:p:",
-        ["send=","ip=","port="])
+    opts, args = getopt.getopt(sys.argv[1:],"s:hi:p:v:",
+        ["send=","ip=","port=","verbose="])
 except getopt.GetoptError:
     sys.exit(2)
 for opt, arg in opts:
     if opt == '-h':
-        print ('myo_raw_osc.py -s <sendOn> -i <dest IP> -p <dest port>')
+        print ('myo_raw_osc.py -s <sendOn> -i <dest IP> -p <dest port> -v <verbose>')
         sys.exit()
     elif opt in ("-s", "--send"):
         send = int(arg)
@@ -45,6 +46,8 @@ for opt, arg in opts:
         ip = arg
     elif opt in ("-p", "--port"):
         port = int(arg)
+    elif opt in ("-v", "--verbose"):
+        verbose = int(arg)
 
 
 ### init
@@ -126,11 +129,13 @@ def proc_imu_osc(quat, gyro, acc):
 
 ### main process
 m.connect()
+
 m.add_imu_handler(proc_imu_transform)
-m.add_emg_handler(proc_emg_verb)
-m.add_imu_handler(proc_imu_verb)
 m.add_emg_handler(proc_emg_hist)
 m.add_imu_handler(proc_imu_hist)
+if verbose:
+    m.add_emg_handler(proc_emg_verb)
+    m.add_imu_handler(proc_imu_verb)
 if send:
     client = OSC.OSCClient()
     client.connect( (ip, port) )
