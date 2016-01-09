@@ -1,5 +1,3 @@
-# (c) Andrés Pérez López 2015-2016
-
 #adapted from:
 #https://github.com/ptone/pyosc/blob/master/examples/knect-rcv.py
 
@@ -7,10 +5,9 @@
 from OSC import OSCServer
 import sys
 from time import sleep
-
 from pyqtgraph.Qt import QtGui, QtCore
 import pyqtgraph as pg
-
+import getopt
 import time
 import numpy as np
 
@@ -33,21 +30,17 @@ for opt, arg in opts:
     if opt == '-h':
         print('\n')
         print ('myo_raw_osc_gui.py: plot raw myo data through OSC ')
+        print('Usage:-i <ip address> -p <ip port> ')
+        print('-i --ip: server ip address. Default to "localhost"')
+        print('-p --port: server ip port. Default to 7110')     
         print('\n')
-        print('Usage: -v <verbose> -s <send> -a <[dest IP,dest port]> -a <...> ... ')
-        print('-v --verbose: 0 or 1 \t print the messages. Default to 1')
-        print('-s --send: 0 or 1 \t send the data over OSC. Default to 0')
-        print('-a --address: [ip,port]  add an OSC client to where send the data')
-        print('\t \t \t ip 0 will expand to localhost 127.0.0.1')
-        print('\t \t \t multiple clients might be registered by reusing the -a option')      
-        print('\n')
+        sys.exit()
     elif opt in ("-i", "--ip"):
         ip = arg
         if ip == "0":
             ip="127.0.0.1"
     elif opt in ("-p","--port"):
         port = int(arg)
-
 
 server = OSCServer( (ip,port) )
 server.timeout = 0

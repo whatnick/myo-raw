@@ -7,7 +7,7 @@
 # Usage: 
 - python myo_raw_osc -v <verbose> -s <send> -a <[dest IP,dest port]> -a <...> ... 
     -v --verbose: 0 or 1 \t print the messages. Default to 1
-    -s --send: 0 or 1 \t send the data over OSC. Default to 0
+    -s --send: 0 or 1 \t send the data over OSC. Default to 1
     -a --address: [ip,port]  add an OSC client to where send the data
         ip 0 will expand to localhost 127.0.0.1
         multiple clients might be registered by reusing the -a option

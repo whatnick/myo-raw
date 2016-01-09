@@ -12,7 +12,7 @@ import getopt
 
 ## default settings
 verbose = 1
-send = 0
+send = 1
 ip = "127.0.0.1"
 port = 7110 # myo_raw_osc_gui.py default port
 
@@ -29,10 +29,9 @@ for opt, arg in opts:
     if opt == '-h':
         print('\n')
         print ('myo_raw_osc.py: send myo raw data over osc ')
-        print('\n')
         print('Usage: -v <verbose> -s <send> -a <[dest IP,dest port]> -a <...> ... ')
         print('-v --verbose: 0 or 1 \t print the messages. Default to 1')
-        print('-s --send: 0 or 1 \t send the data over OSC. Default to 0')
+        print('-s --send: 0 or 1 \t send the data over OSC. Default to 1')
         print('-a --address: [ip,port]  add an OSC client to where send the data')
         print('\t \t \t ip 0 will expand to localhost 127.0.0.1')
         print('\t \t \t multiple clients might be registered by reusing the -a option')      
@@ -68,7 +67,7 @@ m = MyoRaw()
 orientation=[]
 # instanciate osc clients
 if len(addressList)==0:
-    addresList.append({'ip':ip,'port':port}) #dafult values
+    addressList.append({'ip':ip,'port':port}) #dafult values
 for address in addressList:
     client = OSC.OSCClient()
     client.connect( (address['ip'],address['port']) )
