@@ -29,8 +29,8 @@ except getopt.GetoptError:
 for opt, arg in opts:
     if opt == '-h':
         print('\n')
-        print ('myo_raw_osc_gui.py: plot raw myo data through OSC ')
-        print('Usage:-i <ip address> -p <ip port> ')
+        print ('myo_raw_osc_gui.py: plot raw myo data from OSC ')
+        print('Usage: -i <ip address> -p <ip port> ')
         print('-i --ip: server ip address. Default to "localhost"')
         print('-p --port: server ip port. Default to 7110')     
         print('\n')

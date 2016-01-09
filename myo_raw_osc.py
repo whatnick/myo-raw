@@ -34,7 +34,8 @@ for opt, arg in opts:
         print('-s --send: 0 or 1 \t send the data over OSC. Default to 1')
         print('-a --address: [ip,port]  add an OSC client to where send the data')
         print('\t \t \t ip 0 will expand to localhost 127.0.0.1')
-        print('\t \t \t multiple clients might be registered by reusing the -a option')      
+        print('\t \t \t multiple clients might be registered by reusing the -a option')    
+        print('\t \t \t Default address set to "127.0.0.1",7110')      
         print('\n')
         
         print('Output OSC messages:')
