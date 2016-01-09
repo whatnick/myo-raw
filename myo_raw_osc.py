@@ -24,7 +24,6 @@ import getopt
 send = 0
 ip = "127.0.0.1"
 port = 57120 # supercollider language
-maxHist = 100 # max number of recorded events
 nEmg = 0 # number of iterations
 nImu = 0
 verbose = 1
@@ -54,10 +53,6 @@ for opt, arg in opts:
 m = MyoRaw()
 orientation=[]
 
-histEmg = [];
-histMoving = [];
-histOrientation = [];
-histAcc = [];
 
 
 ### define handlers
@@ -68,40 +63,15 @@ def proc_imu_transform(quat, gyro, acc):
      # orientation : [yaw/azimuth, roll, pitch/elevation]
     orientation = transforms3d.taitbryan.quat2euler(quat)
 
-
 ###### verbose
 def proc_emg_verb(emg,moving):
     # len: (8,1)
     print(emg,moving)
-    
 def proc_imu_verb(quat, gyro, acc): # acc and gyro values were changed
     # gyro : [pitch/elevation, roll, yaw/azimuth]
     # orientation : [yaw/azimuth, roll, pitch/elevation]
     # len: (3,3)
     print(orientation,acc)
-    
-# TODO: limit hist size
-    
-###### historical track 
-def proc_emg_hist(emg,moving):
-    global histEmg, histMoving, nEmg
-    nEmg += 1
-    # push to beginning
-    histEmg.insert(0,emg)
-    histMoving.insert(0,moving)
-    if (nEmg > maxHist):
-        histEmg.pop()
-        histMoving.pop()
-    
-def proc_imu_hist(quat, gyro, acc):
-    global histOrientation, histAccm, nImu
-    nImu += 1
-    # push to beginning
-    histOrientation.append(orientation)
-    histAcc.append(acc) 
-    if (nImu > maxHist):
-        histOrientation.pop()
-        histAcc.pop()    
     
 ###### OSC
 def proc_emg_osc(emg, moving):
@@ -113,7 +83,6 @@ def proc_emg_osc(emg, moving):
     except OSC.OSCClientError:
         print('ERROR: Client %s %i does not exist' % (ip, port))
         sys.exit()
-
 def proc_imu_osc(quat, gyro, acc):
     try:
         msg = OSC.OSCMessage()
@@ -131,8 +100,6 @@ def proc_imu_osc(quat, gyro, acc):
 m.connect()
 
 m.add_imu_handler(proc_imu_transform)
-m.add_emg_handler(proc_emg_hist)
-m.add_imu_handler(proc_imu_hist)
 if verbose:
     m.add_emg_handler(proc_emg_verb)
     m.add_imu_handler(proc_imu_verb)
