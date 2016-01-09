@@ -96,7 +96,10 @@ def proc_imu_verb(quat, gyro, acc): # acc and gyro values were changed
 def proc_emg_osc(emg, moving):
     msg = OSC.OSCMessage()
     msg.setAddress("/myo/emg")
-    msg.append(emg)
+    emgFloat = []
+    for v in emg:
+        emgFloat.append(float(v))  
+    msg.append(emgFloat)
     sendOSC(msg)
 def proc_imu_osc(quat, gyro, acc):
     msg = OSC.OSCMessage()
