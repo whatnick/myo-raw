@@ -43,8 +43,10 @@ python myo_raw_osc.py -v 0 -s 1 -a [0,57120] -a [127.0.0.4,12345]
 
 ## Usage: 
 python myo_raw_osc_gui.py -i <ip address> -p <ip port>
-    -i --ip: ip address. Default to "localhost"
-    -p --port: or 1 \t send the data over OSC. Default to 7110
+
+    - -i --ip: ip address. Default to "localhost"
+
+    - -p --port: or 1 \t send the data over OSC. Default to 710
 
 ## Dependencies
   - pyOSC (https://trac.v2.nl/wiki/pyOSC)
