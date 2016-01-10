@@ -113,7 +113,7 @@ def sendOSC(msg):
         try:
             client.send(msg)
         except OSC.OSCClientError:
-            print('ERROR: Client %s %i does not exist' % (ip, port))
+            print('ERROR: Client %s %i does not exist' % (client.address()[0], client.address()[1]))
 #            sys.exit()
             
             
