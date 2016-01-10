@@ -5,20 +5,26 @@
 - Optimal usage with myo-firmware-0.8.18-revd
 
 ## Usage: 
-python myo_raw_osc.py -v -s -a -a... 
+python myo_raw_osc.py -v -s -d -d... 
 
     - -v --verbose: 0 or 1 \t print the messages. Default to 1
 
     - -s --send: 0 or 1 \t send the data over OSC. Default to 1
 
-    - -a --address: [ip,port]  add an OSC client to where send the data
+    - -d --destination: [ip,port]  add an OSC client to where send the data
         ip 0 will expand to localhost 127.0.0.1
         multiple clients might be registered by reusing the -a option
         Default address set to "127.0.0.1",7110
-        
-## OSC messages:
+
+    - -r --receive: [ip,port]  IP address and port where to receive OSC incoming messages (vibration)
+        ip 0 will expand to localhost 127.0.0.1 
+
+## Output OSC messages:
 - [/myo/emg, (8 values with raw EMG data)]
 - [/myo/imu, yaw(azimuth), roll, pitch(elevation), accX, accY, accZ]
+
+## Input OSC messages:
+- [/myo/vib, {integer between 1 (shorter) and 3 (longer)}]
 
 
 ## Examples:
@@ -27,7 +33,7 @@ python myo_raw_osc.py -v -s -a -a...
 python myo_raw_osc.py -v 1
 - send to localhost port 57120 and remote ip 127.0.0.4 port 1235
 
-python myo_raw_osc.py -v 0 -s 1 -a [0,57120] -a [127.0.0.4,12345]
+python myo_raw_osc.py -v 0 -s 1 -d [0,57120] -d [127.0.0.4,12345]
         
   
 ## Dependencies
@@ -40,14 +46,15 @@ python myo_raw_osc.py -v 0 -s 1 -a [0,57120] -a [127.0.0.4,12345]
 
 - Plot in real-time all raw myo data channels
 - Receives OSC messages from external process myo_raw_osc.py
+- Please refer to myo_raw_osc.py for the incoming OSC messages format
 
 ## Usage: 
 python myo_raw_osc_gui.py -i -p
 
-    - -i --ip: ip address. Default to "localhost"
+    - -i --ip: server ip address. Default to "localhost"
 
-    - -p --port: or 1 \t send the data over OSC. Default to 710
-
+    - -p --port: server ip port. Default to 7110
+ 
 ## Dependencies
   - pyOSC (https://trac.v2.nl/wiki/pyOSC)
   - pyQtgraph (http://www.pyqtgraph.org/)
