@@ -1,4 +1,4 @@
- #myo_raw_osc
+## myo_raw_osc
 
 - Added OSC built-in compatibility to the myo raw data
 - Orientation angles accurately computed 
