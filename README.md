@@ -1,5 +1,3 @@
- #hola fito
-
  #myo_raw_osc
 
 - Added OSC built-in compatibility to the myo raw data
