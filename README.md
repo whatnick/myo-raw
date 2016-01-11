@@ -1,8 +1,9 @@
-# myo_raw_osc
+ #myo_raw_osc
 
 - Added OSC built-in compatibility to the myo raw data
 - Orientation angles accurately computed 
 - Optimal usage with myo-firmware-0.8.18-revd
+- for example: https://vimeo.com/151326521
 
 ## Usage: 
 python myo_raw_osc.py -v -s -d -d... 
@@ -47,6 +48,7 @@ python myo_raw_osc.py -v 0 -s 1 -d [0,57120] -d [127.0.0.4,12345]
 - Plot in real-time all raw myo data channels
 - Receives OSC messages from external process myo_raw_osc.py
 - Please refer to myo_raw_osc.py for the incoming OSC messages format
+- for example: https://vimeo.com/150127407
 
 ## Usage: 
 python myo_raw_osc_gui.py -i -p
