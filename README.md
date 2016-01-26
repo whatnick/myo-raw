@@ -6,11 +6,11 @@
 - for example: https://vimeo.com/151326521
 
 ## Usage: 
-python myo_raw_osc.py -v -s -d -r... 
+python myo_raw_osc.py -v -s -d -r -n -i ... 
 
     - -v --verbose: 0 or 1 \t print the messages. Default to 1
 
-    - -s --send: 0 or 1 \t send the data over OSC. Default to 1
+    - -s --send: 0 or 1 \t send/receive the data over OSC. Default to 1
 
     - -d --destination: [ip,port]  add an OSC client to where send the data
         ip 0 will expand to localhost 127.0.0.1
@@ -20,13 +20,13 @@ python myo_raw_osc.py -v -s -d -r...
     - -r --receive: [ip,port]  IP address and port where to receive OSC incoming messages (vibration)
         ip 0 will expand to localhost 127.0.0.1 
         
-    - -n --donglename: specify a usb port name (Linux only). 
-	0 for /dev/ttyACM0, 1 for /dev/ttyACM1, etc
+    - -n --donglename: specify a usb port name (Linux only).
+        0 for /dev/ttyACM0, 1 for /dev/ttyACM1, etc
         if not specified, system will try to find one and use it (be careful with selecting an already used dongle)
         
-     - -i --deviceid: [int] specify the desired device to be connected. 
-	If not, it will connect to first available device
-        please look at the code and change the signature according to your device signature
+     - -i --deviceid: [int] specify the desired device to be connected.
+        If not, it will connect to first available device
+        Please look at the code and change the signature according to your device signature
 
 
 ## Output OSC messages:
