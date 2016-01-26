@@ -171,10 +171,11 @@ class MyoRaw(object):
 
     def __init__(self, tty=None):
         if tty is None:
-            tty = self.detect_tty()
+            tty = self.detect_tty()           
         if tty is None:
             raise ValueError('Myo dongle not found!')
 
+        print("USING tty",tty)
         self.bt = BT(tty)
         self.conn = None
         self.emg_handlers = []
@@ -193,7 +194,7 @@ class MyoRaw(object):
     def run(self, timeout=None):
         self.bt.recv_packet(timeout)
 
-    def connect(self):
+    def connect(self,stringID=None):
         ## stop everything from before
         self.bt.end_scan()
         self.bt.disconnect(0)
@@ -206,10 +207,32 @@ class MyoRaw(object):
         while True:
             p = self.bt.recv_packet()
             print('scan response:', p)
-
-            if p.payload.endswith(b'\x06\x42\x48\x12\x4A\x7F\x2C\x48\x47\xB9\xDE\x04\xA9\x01\x00\x06\xD5'):
-                addr = list(multiord(p.payload[2:8]))
-                break
+            
+            if p.payload.endswith(b'\x06\x42\x48\x12\x4A\x7F\x2C\x48\x47\xB9\xDE\x04\xA9\x01\x00\x06\xD5'): #myo identifier
+                if stringID is None: #connect to first myo seen 
+                    addr = list(multiord(p.payload[2:8]))
+                    break
+                else: 
+                    if p.payload[2:8] == stringID :
+                        addr = list(multiord(p.payload[2:8]))
+                        break
+#==============================================================================
+# check for a specific identifier in the packet
+# it is found in p.payload[2:8]
+# e.g. for my 2 devices the payload is
+# device 1
+# [D4 00      27 22 DF 5D 4C D8       00 FF 15 02 01 06 11 06 42 48 12 4A 7F 2C 48 47 B9 DE 04 A9 01 00 06 D5])
+# [CF 00      27 22 DF 5D 4C D8       00 FF 15 02 01 06 11 06 42 48 12 4A 7F 2C 48 47 B9 DE 04 A9 01 00 06 D5])
+# [C3 00      27 22 DF 5D 4C D8       00 FF 15 02 01 06 11 06 42 48 12 4A 7F 2C 48 47 B9 DE 04 A9 01 00 06 D5])
+# [C9 00      27 22 DF 5D 4C D8       00 FF 15 02 01 06 11 06 42 48 12 4A 7F 2C 48 47 B9 DE 04 A9 01 00 06 D5])
+# device 2      
+# [CE 00      9B BF 93 CB 1E ED       00 FF 15 02 01 06 11 06 42 48 12 4A 7F 2C 48 47 B9 DE 04 A9 01 00 06 D5])
+# [CF 00      9B BF 93 CB 1E ED       00 FF 15 02 01 06 11 06 42 48 12 4A 7F 2C 48 47 B9 DE 04 A9 01 00 06 D5])
+# [CB 00      9B BF 93 CB 1E ED       00 FF 15 02 01 06 11 06 42 48 12 4A 7F 2C 48 47 B9 DE 04 A9 01 00 06 D5])
+# [CF 00      9B BF 93 CB 1E ED       00 FF 15 02 01 06 11 06 42 48 12 4A 7F 2C 48 47 B9 DE 04 A9 01 00 06 D5])
+# so we should compare against the p.payload[2:8] string
+#==============================================================================
+                    
         self.bt.end_scan()
 
         ## connect and wait for status event
@@ -219,7 +242,7 @@ class MyoRaw(object):
 
         ## get firmware version
         fw = self.read_attr(0x17)
-        _, _, _, _, v0, v1, v2, v3 = unpack('BHBBHHHH', fw.payload)
+        _,_,_,_,v0, v1, v2, v3 = unpack('BHBBHHHH', fw.payload)
         print('firmware version: %d.%d.%d.%d' % (v0, v1, v2, v3))
 
         self.old = (v0 == 0)
