@@ -6,7 +6,7 @@
 - for example: https://vimeo.com/151326521
 
 ## Usage: 
-python myo_raw_osc.py -v -s -d -d... 
+python myo_raw_osc.py -v -s -d -r... 
 
     - -v --verbose: 0 or 1 \t print the messages. Default to 1
 
@@ -19,6 +19,15 @@ python myo_raw_osc.py -v -s -d -d...
 
     - -r --receive: [ip,port]  IP address and port where to receive OSC incoming messages (vibration)
         ip 0 will expand to localhost 127.0.0.1 
+        
+    - -n --donglename: specify a usb port name (Linux only). 
+	0 for /dev/ttyACM0, 1 for /dev/ttyACM1, etc
+        if not specified, system will try to find one and use it (be careful with selecting an already used dongle)
+        
+     - -i --deviceid: [int] specify the desired device to be connected. 
+	If not, it will connect to first available device
+        please look at the code and change the signature according to your device signature
+
 
 ## Output OSC messages:
 - [/myo/emg, (8 values with raw EMG data)]
@@ -40,6 +49,10 @@ python myo_raw_osc.py -v 0 -s 1 -d [0,57120] -d [127.0.0.4,12345]
 ## Dependencies
   - pyOSC (https://trac.v2.nl/wiki/pyOSC)
   - transforms3d (https://pypi.python.org/pypi/transforms3d)
+  
+## TODO
+  - On-the-fly choose an availabe, not used usb dongle
+  - Adapt to multi-platform
 
 ------------------------------------------------------------------------------
 
