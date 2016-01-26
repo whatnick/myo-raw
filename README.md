@@ -2,7 +2,7 @@
 
 - Added OSC built-in compatibility to the myo raw data
 - Orientation angles accurately computed 
-- Optimal usage with myo-firmware-0.8.18-revd
+- Optimal usage with attached myo-firmware-0.8.18-revd (www.myo.com/firmwareupdate)
 - for example: https://vimeo.com/151326521
 
 ## Usage: 
