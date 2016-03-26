@@ -25,8 +25,8 @@ clientList = []
 
 ### get command-line options
 try:
-    opts, args = getopt.getopt(sys.argv[1:],"hv:s:d:r:n:i:",
-        ["verbose=","send=","destination=","receive=","donglename:","deviceid"])
+    opts, args = getopt.getopt(sys.argv[1:],"hv:s:d:r:c:n:i:",
+        ["verbose=","send=","destination=","receive=","comout","donglename:","deviceid"])
 except getopt.GetoptError:
     sys.exit(2)
 for opt, arg in opts:
@@ -42,7 +42,10 @@ for opt, arg in opts:
         print('\t \t \t Default address set to "127.0.0.1",7110')      
         print('-r --receive: [ip,port]  IP address and port where to receive OSC incoming messages (vibration)')
         print('\t \t \t ip 0 will expand to localhost 127.0.0.1')
+        print('-c --comout specify a com port name for physical display (Linux only). \'/dev/ttyXX\'')
+        print('\t \t \t specify a com port name (Windows only) starting with \'COM\'')
         print('-n --donglename: specify a usb port name (Linux only). 0 for /dev/ttyACM0, 1 for /dev/ttyACM1, etc')
+        print('\t \t \t specify a usb port name (Windows only) starting with \'COM\'')
         print('\t \t \t if not specified, system will try to find one and use it (be careful with selecting an already used dongle)') 
         print('-i --deviceid: [int] specify the desired device to be connected. If not, it will connect to first available device')
         print('\t \t \t please look at the code and change the signature according to your device signature')
@@ -84,8 +87,19 @@ for opt, arg in opts:
             receiveIp="127.0.0.1"
         receivePort = int(args[1].split("]")[0])  #remove final ] and cast to int
     elif opt in ("-n", "--donglename"):
-        dongleName = "/dev/ttyACM" + arg
+        print(arg)
+        if(arg.startswith('COM')):
+            dongleName = arg
+        else:
+            dongleName = "/dev/ttyACM" + arg
         print(dongleName)
+    elif opt in ("-c", "--comout"):
+        print(arg)
+        if(arg.startswith('COM')):
+            comoutName = arg
+        else:
+            comoutName = "/dev/ttyO" + arg
+        print(comoutName)
     elif opt in ("-i","--deviceid"):
         deviceNumber = int(arg)
         
@@ -148,6 +162,19 @@ def proc_imu_osc(quat, gyro, acc):
     msg.append(acc)
     sendOSC(msg)
     
+###### Comout
+def proc_emg_com(emg, moving):
+    import serial
+    ser = serial.Serial(port=comoutName, baudrate=115200, dsrdtr=1)
+    ser.write(str(emg))
+    ser.close()
+    
+def proc_imu_com(quat, gyro, acc):
+    import serial
+    ser = serial.Serial(port=comoutName, baudrate=115200, dsrdtr=1)
+    ser.write(str(acc))
+    ser.close()
+    
 def user_callback_vib(path, tags, args, source):
         m.vibrate(args[0])
 
@@ -188,6 +215,9 @@ if send:
     m.add_emg_handler(proc_emg_osc)
     m.add_imu_handler(proc_imu_osc)
     server.addMsgHandler( "/myo/vib", user_callback_vib )
+if comoutName!=None:
+    #m.add_emg_handler(proc_emg_com)
+    m.add_imu_handler(proc_imu_com)
      
 # m.add_arm_handler(lambda arm, xdir: print('arm', arm, 'xdir', xdir))
 # m.add_pose_handler(lambda p: print('pose', p))
