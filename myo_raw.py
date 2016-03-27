@@ -317,6 +317,7 @@ class MyoRaw(object):
                 elif typ == 2: # removed from arm
                     self.on_arm(Arm.UNKNOWN, XDirection.UNKNOWN)
                 elif typ == 3: # pose
+                    print(val)
                     self.on_pose(Pose(val))
             else:
                 print('data with unknown attr: %02X %s' % (attr, p))

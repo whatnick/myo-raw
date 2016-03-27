@@ -18,6 +18,7 @@ port = 7110 # myo_raw_osc_gui.py default port
 receiveIp = "127.0.0.1"
 receivePort = 7111
 dongleName = None
+comoutName = None
 deviceNumber = None # internal identifier
 
 addressList = []
@@ -166,7 +167,12 @@ def proc_imu_osc(quat, gyro, acc):
 def proc_emg_com(emg, moving):
     import serial
     ser = serial.Serial(port=comoutName, baudrate=115200, dsrdtr=1)
-    ser.write(str(emg))
+    if(sum(emg)/8)>700:
+	ser.write('7')
+    elif emg[2] >800 and emg[3] >800:
+        ser.write('5')
+    elif emg[0] >800 and emg[7] >600:
+        ser.write('2')
     ser.close()
     
 def proc_imu_com(quat, gyro, acc):
@@ -216,8 +222,8 @@ if send:
     m.add_imu_handler(proc_imu_osc)
     server.addMsgHandler( "/myo/vib", user_callback_vib )
 if comoutName!=None:
-    #m.add_emg_handler(proc_emg_com)
-    m.add_imu_handler(proc_imu_com)
+    m.add_emg_handler(proc_emg_com)
+    #m.add_imu_handler(proc_imu_com)
      
 # m.add_arm_handler(lambda arm, xdir: print('arm', arm, 'xdir', xdir))
 # m.add_pose_handler(lambda p: print('pose', p))
