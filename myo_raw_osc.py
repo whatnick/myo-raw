@@ -169,9 +169,9 @@ def proc_emg_com(emg, moving):
     ser = serial.Serial(port=comoutName, baudrate=115200, dsrdtr=1)
     if(sum(emg)/8)>700:
 	ser.write('7')
-    elif emg[2] >800 and emg[3] >800:
+    elif emg[2] >800 and emg[3] >800 and emg[1] > 700 and emg[7] < 200:
         ser.write('5')
-    elif emg[0] >800 and emg[7] >600:
+    elif emg[6] > 800 and emg[7] >800 and emg[3] < 600:
         ser.write('2')
     ser.close()
     
@@ -235,4 +235,9 @@ try:
             server.handle_request()
 finally:
     m.disconnect()
+    if comoutName!=None:
+        import serial
+        ser = serial.Serial(port=comoutName, baudrate=115200, dsrdtr=1)
+        ser.write('0')
+        ser.close()
     print()
