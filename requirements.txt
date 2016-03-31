@@ -1,0 +1,7 @@
+numpy == 1.10.4
+pyqtgraph == 0.9.10
+transforms3d == 0.2.1
+OSC == 0.0
+pygame == 1.8.1
+pyserial == 3.0.1
+scikit_learn == 0.17.1
